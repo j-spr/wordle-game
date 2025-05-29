@@ -78,6 +78,12 @@
             100% { transform: scale(1); }
         }
         
+        @keyframes flip {
+            0% { transform: rotateX(0); }
+            50% { transform: rotateX(90deg); }
+            100% { transform: rotateX(0); }
+        }
+        
         .message {
             height: 30px;
             font-size: 1.2rem;
@@ -98,10 +104,29 @@
     </div>
 
     <script>
+        // Banco de palabras en español de 5 letras
+        const PALABRAS_POSIBLES = [
+            'ABETO', 'ABONO', 'ABRIL', 'ACEITE', 'ACTOR', 'ADIOS', 'AFORO', 'AGAVE', 'AGUJA', 'AHORA', 'AJENO', 'ALAMO', 'ALBUM', 'ALFIL', 'ALGAS', 'ALIEN', 'ALTAR', 'AMADO', 'AMAGO', 'AMBOS', 'AMPLI', 'ANCLA', 'ANGEL', 'ANIMO', 'ANTRO', 'APODO', 'ARENA', 'ARIDO', 'ARNES', 'ASADO', 'ATLAS', 'AUDIO', 'AVENA', 'AVION', 'AYUDA', 'AZTEC', 'BAILE', 'BANDA', 'BARON', 'BARCO', 'BATON', 'BELLO', 'BINGO', 'BLUSA', 'BOMBA', 'BORDE', 'BRAVO', 'BROTE', 'BUENO', 'BUSCA', 'CABAL', 'CABRE', 'CACAO', 'CADIZ', 'CAIDA', 'CALMA', 'CAMPO', 'CAOBA', 'CARGA', 'CARNE', 'CARTA', 'CAUCE', 'CAUSE', 'CEBRA', 'CERCO', 'CHICA', 'CHINO', 'CIELO', 'CINCO', 'CINTA', 'CIRCO', 'CLARO', 'COSTA', 'CREMA', 'CUEVA', 'CURSO', 'DANZA', 'DATOS', 'DEJAR', 'DESEO', 'DIETA', 'DIGNO', 'DISCO', 'DOLOR', 'DONAR', 'DRAMA', 'DUCHA', 'DULCE', 'EBANO', 'EDWIN', 'ELENA', 'ENERO', 'ENTRE', 'EPOCA', 'ERROR', 'ETICA', 'ETNIA', 'EURO', 'EXTRA', 'FALDA', 'FANGO', 'FECHA', 'FELIZ', 'FERIA', 'FIBRA', 'FINCA', 'FLACO', 'FLAMA', 'FLORA', 'FORMA', 'FRASE', 'FRENO', 'FRUTO', 'FUEGO', 'FUERA', 'FURIA', 'GANAR', 'GATOS', 'GENIO', 'GENTE', 'GIRAR', 'GLOBO', 'GORRA', 'GRADO', 'GRANO', 'GRAPA', 'GRASA', 'GRAVE', 'GRIPE', 'GRUPO', 'GUANO', 'GUAPO', 'GUION', 'GUSANO', 'HABER', 'HABLA', 'HACIA', 'HAITI', 'HARTA', 'HASTA', 'HELIO', 'HIELO', 'HIERRO', 'HIMNO', 'HOGAR', 'HONGO', 'HONOR', 'HOTEL', 'HUCHA', 'HUESO', 'HUMOR', 'IDEAL', 'IGUAL', 'INDIA', 'INDIO', 'INGLES', 'INTRO', 'JABON', 'JAMON', 'JARDIN', 'JOVEN', 'JUEGO', 'JUNTO', 'KIWIS', 'LAVAR', 'LEMON', 'LETRA', 'LIBRE', 'LIBRO', 'LINEA', 'LISTA', 'LLAMA', 'LLANO', 'LLUVIA', 'LOCAL', 'LOGRO', 'LUCHA', 'LUGAR', 'LUNAR', 'MADRE', 'MAGIA', 'MALTA', 'MANDO', 'MANGO', 'MANOS', 'MAPLE', 'MARCA', 'MARZO', 'MAYOR', 'MELON', 'MENOR', 'METRO', 'MICRO', 'MIRAR', 'MIXED', 'MODAL', 'MORAL', 'MORIR', 'MOVER', 'MUCHO', 'MUNDO', 'MUSGO', 'NACER', 'NEGRO', 'NIEVE', 'NIVEL', 'NOBLE', 'NOCHE', 'NORTE', 'NOVIA', 'NUEVO', 'NUNCA', 'OCASO', 'OCEAN', 'ODIAR', 'OESTE', 'OPERA', 'ORDEN', 'OREJA', 'OSITO', 'OTROS', 'OVALO', 'PADRE', 'PAGAR', 'PAGINA', 'PALMA', 'PANDA', 'PANEL', 'PAPEL', 'PARIS', 'PARTE', 'PASAR', 'PASTA', 'PATATA', 'PATIO', 'PAUSA', 'PEACE', 'PECHO', 'PEDIR', 'PELEA', 'PELLA', 'PERRO', 'PIANO', 'PICAR', 'PIEZA', 'PINTA', 'PIZZA', 'PLANO', 'PLATA', 'PLAYA', 'PLAZA', 'PLUMA', 'PODER', 'POEMA', 'POETA', 'POKER', 'POLO', 'PONTE', 'PRECIO', 'PRIMA', 'PRIMO', 'PROFE', 'PUNTO', 'QUESO', 'QUIEN', 'QUITO', 'RADIO', 'RAMAT', 'RANGO', 'RAPOR', 'RATIO', 'RATON', 'RAZON', 'REINA', 'REINO', 'RELOJ', 'RESTO', 'RIFLE', 'RITMO', 'ROBLE', 'ROBOT', 'RONDA', 'ROSAS', 'RUGBY', 'RUIDO', 'SABER', 'SABOR', 'SALON', 'SALUD', 'SANTA', 'SANTO', 'SECAR', 'SEGUN', 'SELVA', 'SEÑOR', 'SERIE', 'SIGLO', 'SILLA', 'SOBRE', 'SODA', 'SOFIA', 'SOLAR', 'SONGE', 'SONIA', 'SUPER', 'TABLE', 'TACTO', 'TANGO', 'TANTO', 'TARDE', 'TECLA', 'TENIS', 'TERRA', 'TEXTO', 'TIEMPO', 'TIGER', 'TINTA', 'TITAN', 'TIZÓN', 'TODAS', 'TOKYO', 'TOMAR', 'TOQUE', 'TORRE', 'TOTAL', 'TOTEM', 'TRAGO', 'TRATO', 'TRECE', 'TRIGO', 'TRINO', 'TRONO', 'TUBER', 'TUMOR', 'ULTRA', 'UNION', 'URBAN', 'USUAL', 'VACIO', 'VALER', 'VALLE', 'VALOR', 'VAPOR', 'VECES', 'VENDA', 'VERDE', 'VIDEO', 'VIEJO', 'VILLA', 'VIRUS', 'VISTA', 'VIVIR', 'VOCAL', 'VODKA', 'VOLAR', 'WALES', 'WHALE', 'WORLD', 'YACHT', 'YOGA', 'ZEBRA', 'ZORRO'
+        ];
+        
         // Variables del juego
         let currentRow = 0;
         let currentCol = 0;
         let currentGuess = '';
+        let targetWord = '';
+        let gameOver = false;
+        
+        // Seleccionar palabra aleatoria al iniciar
+        function selectRandomWord() {
+            const randomIndex = Math.floor(Math.random() * PALABRAS_POSIBLES.length);
+            targetWord = PALABRAS_POSIBLES[randomIndex];
+            console.log('Palabra secreta:', targetWord); // Para debugging (quitar en producción)
+        }
+        
+        // Verificar si una palabra existe en el diccionario
+        function isValidWord(word) {
+            return PALABRAS_POSIBLES.includes(word.toUpperCase());
+        }
         
         // Inicializar el tablero
         function initBoard() {
@@ -125,7 +150,7 @@
         
         // Función para agregar una letra al tablero
         function addLetter(letter) {
-            if (currentCol < 5) {
+            if (currentCol < 5 && !gameOver) {
                 const cell = document.getElementById(`cell-${currentRow}-${currentCol}`);
                 cell.textContent = letter.toUpperCase();
                 currentGuess += letter.toUpperCase();
@@ -141,7 +166,7 @@
         
         // Función para eliminar una letra
         function deleteLetter() {
-            if (currentCol > 0) {
+            if (currentCol > 0 && !gameOver) {
                 currentCol--;
                 const cell = document.getElementById(`cell-${currentRow}-${currentCol}`);
                 cell.textContent = '';
@@ -149,17 +174,100 @@
             }
         }
         
-        // Función para procesar Enter (por ahora solo muestra mensaje)
-        function submitGuess() {
-            if (currentGuess.length === 5) {
-                showMessage(`Has escrito: ${currentGuess}`);
-                // Por ahora solo pasamos a la siguiente fila
-                currentRow++;
-                currentCol = 0;
-                currentGuess = '';
+        // Función para evaluar la palabra y colorear las celdas
+        function evaluateGuess() {
+            const guess = currentGuess;
+            const target = targetWord;
+            const result = [];
+            
+            // Crear array para marcar letras ya utilizadas
+            const targetLetters = target.split('');
+            const usedPositions = new Array(5).fill(false);
+            
+            // Primera pasada: marcar letras correctas (verdes)
+            for (let i = 0; i < 5; i++) {
+                if (guess[i] === target[i]) {
+                    result[i] = 'correct';
+                    usedPositions[i] = true;
+                }
+            }
+            
+            // Segunda pasada: marcar letras en posición incorrecta (amarillas) y incorrectas (grises)
+            for (let i = 0; i < 5; i++) {
+                if (result[i] !== 'correct') {
+                    let found = false;
+                    for (let j = 0; j < 5; j++) {
+                        if (!usedPositions[j] && guess[i] === target[j] && result[j] !== 'correct') {
+                            result[i] = 'present';
+                            usedPositions[j] = true;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        result[i] = 'absent';
+                    }
+                }
+            }
+            
+            return result;
+        }
+        
+        // Función para colorear las celdas según el resultado
+        function colorCells(result) {
+            for (let i = 0; i < 5; i++) {
+                const cell = document.getElementById(`cell-${currentRow}-${i}`);
                 
-                if (currentRow >= 6) {
-                    showMessage('¡Se acabaron los intentos!');
+                setTimeout(() => {
+                    cell.style.animation = 'flip 0.6s ease-in-out';
+                    
+                    setTimeout(() => {
+                        if (result[i] === 'correct') {
+                            cell.style.backgroundColor = '#6aaa64'; // Verde
+                            cell.style.borderColor = '#6aaa64';
+                        } else if (result[i] === 'present') {
+                            cell.style.backgroundColor = '#c9b458'; // Amarillo
+                            cell.style.borderColor = '#c9b458';
+                        } else {
+                            cell.style.backgroundColor = '#787c7e'; // Gris
+                            cell.style.borderColor = '#787c7e';
+                        }
+                        cell.style.color = 'white';
+                    }, 300);
+                }, i * 100);
+            }
+        }
+        
+        // Función para procesar Enter
+        function submitGuess() {
+            if (gameOver) return;
+            
+            if (currentGuess.length === 5) {
+                if (isValidWord(currentGuess)) {
+                    const result = evaluateGuess();
+                    colorCells(result);
+                    
+                    // Verificar si ganó
+                    if (currentGuess === targetWord) {
+                        setTimeout(() => {
+                            showMessage(`¡Felicidades! La palabra era ${targetWord}`);
+                            gameOver = true;
+                        }, 2000);
+                    } 
+                    // Verificar si perdió
+                    else if (currentRow === 5) {
+                        setTimeout(() => {
+                            showMessage(`Game Over. La palabra era: ${targetWord}`);
+                            gameOver = true;
+                        }, 2000);
+                    }
+                    
+                    // Preparar siguiente intento
+                    currentRow++;
+                    currentCol = 0;
+                    currentGuess = '';
+                } else {
+                    showMessage('Palabra no válida');
                 }
             } else {
                 showMessage('La palabra debe tener 5 letras');
@@ -171,7 +279,9 @@
             const messageEl = document.getElementById('message');
             messageEl.textContent = text;
             setTimeout(() => {
-                messageEl.textContent = '';
+                if (!gameOver) {
+                    messageEl.textContent = '';
+                }
             }, 2000);
         }
         
@@ -201,7 +311,8 @@
         // Inicializar el juego cuando se carga la página
         document.addEventListener('DOMContentLoaded', function() {
             initBoard();
-            showMessage('¡Escribe una palabra de 5 letras!');
+            selectRandomWord();
+            showMessage('¡Adivina la palabra de 5 letras!');
         });
     </script>
 </body>
