@@ -65,6 +65,17 @@
             text-transform: uppercase;
             background-color: #121213;
             color: white;
+            transition: all 0.1s ease;
+        }
+        
+        .cell:not(:empty) {
+            border-color: #565758;
+        }
+        
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
         .message {
@@ -87,6 +98,11 @@
     </div>
 
     <script>
+        // Variables del juego
+        let currentRow = 0;
+        let currentCol = 0;
+        let currentGuess = '';
+        
         // Inicializar el tablero
         function initBoard() {
             const board = document.getElementById('board');
@@ -107,10 +123,85 @@
             }
         }
         
+        // Función para agregar una letra al tablero
+        function addLetter(letter) {
+            if (currentCol < 5) {
+                const cell = document.getElementById(`cell-${currentRow}-${currentCol}`);
+                cell.textContent = letter.toUpperCase();
+                currentGuess += letter.toUpperCase();
+                currentCol++;
+                
+                // Agregar animación de escritura
+                cell.style.animation = 'pop 0.1s ease-in-out';
+                setTimeout(() => {
+                    cell.style.animation = '';
+                }, 100);
+            }
+        }
+        
+        // Función para eliminar una letra
+        function deleteLetter() {
+            if (currentCol > 0) {
+                currentCol--;
+                const cell = document.getElementById(`cell-${currentRow}-${currentCol}`);
+                cell.textContent = '';
+                currentGuess = currentGuess.slice(0, -1);
+            }
+        }
+        
+        // Función para procesar Enter (por ahora solo muestra mensaje)
+        function submitGuess() {
+            if (currentGuess.length === 5) {
+                showMessage(`Has escrito: ${currentGuess}`);
+                // Por ahora solo pasamos a la siguiente fila
+                currentRow++;
+                currentCol = 0;
+                currentGuess = '';
+                
+                if (currentRow >= 6) {
+                    showMessage('¡Se acabaron los intentos!');
+                }
+            } else {
+                showMessage('La palabra debe tener 5 letras');
+            }
+        }
+        
+        // Función para mostrar mensajes
+        function showMessage(text) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            setTimeout(() => {
+                messageEl.textContent = '';
+            }, 2000);
+        }
+        
+        // Capturar teclas del teclado
+        document.addEventListener('keydown', function(event) {
+            const key = event.key.toLowerCase();
+            
+            // Prevenir comportamiento por defecto para teclas especiales
+            if (key === 'backspace' || key === 'enter') {
+                event.preventDefault();
+            }
+            
+            // Solo permitir letras del alfabeto español
+            if (key >= 'a' && key <= 'z' && key.length === 1) {
+                addLetter(key);
+            }
+            // Tecla Backspace para borrar
+            else if (key === 'backspace') {
+                deleteLetter();
+            }
+            // Tecla Enter para enviar
+            else if (key === 'enter') {
+                submitGuess();
+            }
+        });
+        
         // Inicializar el juego cuando se carga la página
         document.addEventListener('DOMContentLoaded', function() {
             initBoard();
-            console.log('Tablero inicializado');
+            showMessage('¡Escribe una palabra de 5 letras!');
         });
     </script>
 </body>
