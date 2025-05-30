@@ -246,14 +246,31 @@ h1 {
   }
 
   .key {
-    flex: 1 1 calc(10% - 4px); /* Distribuye 10 teclas por fila */
+    flex: 1 1 calc(10% - 4px);
     min-width: auto;
     font-size: 12px;
     height: 45px;
   }
 
   .key.wide {
-    flex: 1.5 1.5 calc(20% - 4px); /* ENTER y ⌫ más anchos */
+    min-width: auto;
     font-size: 11px;
+  }
+
+  /* Estilos específicos para la última fila */
+  .keyboard-row:last-child {
+    justify-content: space-between;
+  }
+
+  .keyboard-row:last-child .key.wide[data-key="backspace"] {
+    flex: 1.2 1 calc(15% - 4px);
+  }
+
+  .keyboard-row:last-child .key.wide[data-key="enter"] {
+    flex: 1.2 1 calc(15% - 4px);
+  }
+
+  .keyboard-row:last-child .key:not(.wide) {
+    flex: 1 1 calc(8.75% - 4px);
   }
 }
