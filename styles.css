@@ -232,3 +232,28 @@ h1 {
 .play-again-btn:hover {
     background-color: #5a9a54;
 }
+
+@media screen and (max-width: 480px) {
+  .keyboard {
+    max-width: 100%;
+    padding: 0 6px 10px;
+    gap: 4px;
+  }
+
+  .keyboard-row {
+    flex-wrap: wrap;
+    gap: 3px;
+  }
+
+  .key {
+    flex: 1 1 calc(10% - 4px); /* Distribuye 10 teclas por fila */
+    min-width: auto;
+    font-size: 12px;
+    height: 45px;
+  }
+
+  .key.wide {
+    flex: 1.5 1.5 calc(20% - 4px); /* ENTER y ⌫ más anchos */
+    font-size: 11px;
+  }
+}
