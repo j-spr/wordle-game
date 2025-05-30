@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wordle en Español</title>
+    <title>Adivina la palabra</title>
     <link rel="stylesheet" href="styles.css"/>
-    <!-- Google tag (gtag.js) -->
+    <link rel="icon" href="lettr-logo.png" type="image/x-icon" />
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-QC8NNG66B0"
@@ -21,7 +21,7 @@
     </script>
   </head>
   <body>
-    <h1>WORDLE</h1>
+    <h1>LETTR</h1>
 
     <div class="game-container">
       <div class="board" id="board"></div>
@@ -74,6 +74,48 @@
           Jugar de nuevo
         </button>
       </div>
+    </div>
+
+    <div id="instructionsModal" class="modal">
+        <div class="modal-content instructions-content">
+            <span class="close-button" id="closeInstructions">&times;</span>
+            <h2>Cómo Jugar</h2>
+            <p>Adivina la palabra oculta en 6 intentos.</p>
+            <p>Cada intento debe ser una palabra válida de 5 letras.</p>
+            <p>Después de cada intento, el color de las letras cambiará para mostrar qué tan cerca estuviste de la palabra correcta.</p>
+            
+            <h3>Ejemplos de Colores:</h3>
+            <div class="color-explanation">
+                <div class="example-row">
+                    <div class="example-cell correct-example">G</div>
+                    <div class="example-cell">A</div>
+                    <div class="example-cell">T</div>
+                    <div class="example-cell">O</div>
+                    <div class="example-cell">S</div>
+                </div>
+                <p>La letra <strong>G</strong> está en la palabra y en la posición correcta (verde).</p>
+                <div class="example-row">
+                    <div class="example-cell">P</div>
+                    <div class="example-cell present-example">E</div>
+                    <div class="example-cell">R</div>
+                    <div class="example-cell">R</div>
+                    <div class="example-cell">O</div>
+                </div>
+                <p>La letra <strong>E</strong> está en la palabra pero en la posición incorrecta (amarillo).</p>
+                <div class="example-row">
+                    <div class="example-cell">C</div>
+                    <div class="example-cell">A</div>
+                    <div class="example-cell">S</div>
+                    <div class="example-cell">A</div>
+                    <div class="example-cell absent-example">R</div>
+                </div>
+                <p>La letra <strong>R</strong> no está en la palabra en ninguna posición (gris).</p>
+            </div>
+            
+            <h3>Límite Diario:</h3>
+            <p>Solo puedes adivinar <strong>2 palabras por día</strong>. ¡El juego se reinicia cada medianoche!</p>
+            <button id="startGameBtn" class="play-again-btn">¡Empezar a Jugar!</button>
+        </div>
     </div>
 
     <script src="script.js"></script>

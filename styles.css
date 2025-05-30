@@ -168,11 +168,11 @@ h1 {
     background-color: white;
 }
 
-/* Modal */
+/* Modal general */
 .modal {
-    display: none;
+    display: none; /* Oculto por defecto */
     position: fixed;
-    z-index: 1;
+    z-index: 1000; /* Asegura que esté por encima de todo */
     left: 0;
     top: 0;
     width: 100%;
@@ -181,7 +181,6 @@ h1 {
     background-color: rgba(0,0,0,0.7);
     justify-content: center;
     align-items: center;
-    border-radius: 8px;
 }
 
 .modal-content {
@@ -194,6 +193,7 @@ h1 {
     text-align: center;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    color: #1f1f1f; /* Asegura que el texto sea legible en el modal */
 }
 
 .modal-content p {
@@ -207,13 +207,13 @@ h1 {
     float: right;
     font-size: 28px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .close-button:hover,
 .close-button:focus {
-    color: #fff;
+    color: #333; /* Cambiado a un color oscuro para mejor contraste */
     text-decoration: none;
-    cursor: pointer;
 }
 
 .play-again-btn {
@@ -233,6 +233,77 @@ h1 {
     background-color: #5a9a54;
 }
 
+/* Estilos específicos para el modal de instrucciones */
+.instructions-content {
+    max-width: 550px; /* Más grande para las instrucciones */
+    padding: 30px;
+    text-align: left; /* Alineación de texto a la izquierda para mejor lectura */
+}
+
+.instructions-content h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #3a3a3c;
+}
+
+.instructions-content h3 {
+    font-size: 1.4rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #3a3a3c;
+}
+
+.instructions-content p {
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.color-explanation {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.example-row {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+.example-cell {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #3a3a3c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: rgb(58, 58, 58);
+    border-radius: 4px;
+}
+
+.example-cell.correct-example {
+    background-color: #6aaa64;
+    border-color: #6aaa64;
+}
+
+.example-cell.present-example {
+    background-color: #c9b458;
+    border-color: #c9b458;
+}
+
+.example-cell.absent-example {
+    background-color: #787c7e;
+    border-color: #787c7e;
+}
+
+/* Media Queries para responsividad */
 @media screen and (max-width: 480px) {
   .keyboard {
     max-width: 100%;
@@ -272,5 +343,32 @@ h1 {
 
   .keyboard-row:last-child .key:not(.wide) {
     flex: 1 1 calc(8.75% - 4px);
+  }
+
+  .modal-content {
+    width: 95%; /* Más ancho en móviles */
+    padding: 15px;
+  }
+
+  .instructions-content {
+    padding: 20px;
+  }
+
+  .instructions-content h2 {
+    font-size: 1.8rem;
+  }
+
+  .instructions-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .instructions-content p {
+    font-size: 1rem;
+  }
+
+  .example-cell {
+    width: 35px;
+    height: 35px;
+    font-size: 1.3rem;
   }
 }

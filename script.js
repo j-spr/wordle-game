@@ -12,7 +12,7 @@ fetch('palabrasESP.json')
   .then(response => response.json())
   .then(data => {
     PALABRAS_POSIBLES = data.palabrasESP;
-    selectRandomWord(); // Inicializar la palabra una vez que se han cargado los datos
+    // La selección de la palabra y el inicio del juego se moverán a showInstructionsModal
   })
   .catch(error => console.error('Error cargando las palabras:', error));
 
@@ -20,6 +20,7 @@ fetch('palabrasESP.json')
 const MAX_GAMES_PER_DAY = 2;
 let gamesPlayedToday = 0;
 let lastPlayedDate = '';
+let instructionsShownToday = false; // Nueva variable para controlar si las instrucciones se han mostrado hoy
 
 // Función para obtener la fecha actual en formato YYYY-MM-DD
 function getTodayDate() {
@@ -34,15 +35,18 @@ function getTodayDate() {
 function loadGameState() {
     const storedDate = localStorage.getItem('lastPlayedDate');
     const storedGames = parseInt(localStorage.getItem('gamesPlayedToday') || '0', 10);
+    const storedInstructionsShown = localStorage.getItem('instructionsShownToday');
     const today = getTodayDate();
 
     if (storedDate === today) {
         lastPlayedDate = storedDate;
         gamesPlayedToday = storedGames;
+        instructionsShownToday = storedInstructionsShown === 'true'; // Convertir a booleano
     } else {
-        // Si es un nuevo día, resetear el contador de juegos
+        // Si es un nuevo día, resetear el contador de juegos y el flag de instrucciones
         lastPlayedDate = today;
         gamesPlayedToday = 0;
+        instructionsShownToday = false; // Resetear para que las instrucciones se muestren de nuevo
         saveGameState(); // Guardar el nuevo estado
         // Enviar evento a Google Analytics: Reinicio diario
         if (typeof gtag === 'function') {
@@ -58,9 +62,10 @@ function loadGameState() {
 function saveGameState() {
     localStorage.setItem('lastPlayedDate', lastPlayedDate);
     localStorage.setItem('gamesPlayedToday', gamesPlayedToday);
+    localStorage.setItem('instructionsShownToday', instructionsShownToday); // Guardar el estado de las instrucciones
 }
 
-// Función para mostrar un modal personalizado
+// Función para mostrar un modal personalizado (para mensajes de fin de juego)
 function showModal(message) {
     const modal = document.getElementById('myModal');
     const modalMessage = document.getElementById('modalMessage');
@@ -75,7 +80,7 @@ function showModal(message) {
     }
 }
 
-// Función para cerrar el modal
+// Función para cerrar el modal (para mensajes de fin de juego)
 function closeModal() {
     const modal = document.getElementById('myModal');
     modal.style.display = 'none';
@@ -89,6 +94,47 @@ function closeModal() {
         });
     }
 }
+
+// NUEVA FUNCIÓN: Mostrar el modal de instrucciones
+function showInstructionsModal() {
+    const instructionsModal = document.getElementById('instructionsModal');
+    instructionsModal.style.display = 'flex';
+    // Enviar evento a Google Analytics: Modal de instrucciones mostrado
+    if (typeof gtag === 'function') {
+        gtag('event', 'instructions_modal_view', {
+            'event_category': 'ui_interaction',
+            'event_label': 'instructions_shown'
+        });
+    }
+}
+
+// NUEVA FUNCIÓN: Cerrar el modal de instrucciones e iniciar el juego
+function closeInstructionsModal() {
+    const instructionsModal = document.getElementById('instructionsModal');
+    instructionsModal.style.display = 'none';
+    instructionsShownToday = true; // Marcar que las instrucciones ya se mostraron hoy
+    saveGameState(); // Guardar el estado actualizado
+
+    // Iniciar el juego después de cerrar las instrucciones
+    initBoard();
+    initKeyboard();
+    if (gamesPlayedToday >= MAX_GAMES_PER_DAY) {
+        showModal(`¡Bienvenido de vuelta!\n\nYa completaste tus ${MAX_GAMES_PER_DAY} palabras de hoy.\nVuelve mañana para más desafíos.`);
+        gameOver = true;
+    } else {
+        selectRandomWord();
+        const remainingGames = MAX_GAMES_PER_DAY - gamesPlayedToday;
+        showMessage(`¡Adivina la palabra de 5 letras! (${remainingGames} ${remainingGames === 1 ? 'palabra' : 'palabras'} restantes hoy)`);
+        // Enviar evento a Google Analytics: Juego iniciado
+        if (typeof gtag === 'function') {
+            gtag('event', 'game_start', {
+                'event_category': 'game_status',
+                'event_label': 'new_game'
+            });
+        }
+    }
+}
+
 
 // Seleccionar palabra aleatoria al iniciar
 function selectRandomWord() {
@@ -418,37 +464,53 @@ function initKeyboard() {
 // Inicializar el juego cuando se carga la página
 document.addEventListener('DOMContentLoaded', function() {
     loadGameState(); // Cargar el estado del juego al inicio
-    initBoard();
-    initKeyboard();
-    
-    if (gamesPlayedToday >= MAX_GAMES_PER_DAY) {
-    showModal(`¡Bienvenido de vuelta!\n\nYa completaste tus ${MAX_GAMES_PER_DAY} palabras de hoy.\nVuelve mañana para más desafíos.`);
-    gameOver = true;
+
+    // Si las palabras aún no se han cargado, esperar a que se carguen
+    if (PALABRAS_POSIBLES.length === 0) {
+        // Usar un temporizador o un MutationObserver si la carga es asíncrona y no hay un evento específico
+        // Para este caso, como fetch ya maneja la promesa, el código dentro del .then() se ejecutará
+        // después de que PALABRAS_POSIBLES esté lleno.
+        // Aquí, simplemente aseguramos que la lógica de inicio se ejecute después del fetch.
+        // El fetch ya llama a selectRandomWord, pero la lógica de mostrar instrucciones
+        // y el inicio del juego se manejan aquí.
+        fetch('palabrasESP.json')
+            .then(response => response.json())
+            .then(data => {
+                PALABRAS_POSIBLES = data.palabrasESP;
+                // Ahora que las palabras están cargadas, decidir si mostrar instrucciones o iniciar el juego
+                if (!instructionsShownToday) {
+                    showInstructionsModal();
+                } else {
+                    closeInstructionsModal(); // Esto iniciará el juego directamente
+                }
+            })
+            .catch(error => console.error('Error cargando las palabras:', error));
     } else {
-    selectRandomWord();
-    const remainingGames = MAX_GAMES_PER_DAY - gamesPlayedToday;
-    showMessage(`¡Adivina la palabra de 5 letras! (${remainingGames} ${remainingGames === 1 ? 'palabra' : 'palabras'} restantes hoy)`);
-        // Enviar evento a Google Analytics: Juego iniciado
-        if (typeof gtag === 'function') {
-            gtag('event', 'game_start', {
-                'event_category': 'game_status',
-                'event_label': 'new_game'
-            });
+        // Si las palabras ya están cargadas (ej. por recarga rápida o caché)
+        if (!instructionsShownToday) {
+            showInstructionsModal();
+        } else {
+            closeInstructionsModal(); // Esto iniciará el juego directamente
         }
     }
 
-    // Configurar el botón de cierre del modal
-    document.querySelector('.close-button').addEventListener('click', closeModal);
+    // Configurar el botón de cierre del modal de fin de juego
+    document.querySelector('#myModal .close-button').addEventListener('click', closeModal);
     window.addEventListener('click', (event) => {
         const modal = document.getElementById('myModal');
         if (event.target === modal) {
             closeModal();
         }
     });
+
+    // Configurar el botón "Jugar de nuevo" del modal de fin de juego
+    document.getElementById('playAgainBtn').addEventListener('click', resetGame);
+
+    // Configurar los botones del nuevo modal de instrucciones
+    document.getElementById('closeInstructions').addEventListener('click', closeInstructionsModal);
+    document.getElementById('startGameBtn').addEventListener('click', closeInstructionsModal);
 });
 
-// Configurar el botón "Jugar de nuevo"
-document.getElementById('playAgainBtn').addEventListener('click', resetGame);
 
 // Función para resetear el juego
 function resetGame() {
@@ -473,7 +535,6 @@ function resetGame() {
     // Mostrar mensaje inicial
     showMessage('¡Adivina la palabra de 5 letras!');
     
-    // Cerrar modal
+    // Cerrar modal de fin de juego
     closeModal();
 }
-
