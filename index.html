@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wordle en Español</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-XXXXXXXXXX'); // Reemplaza 'G-XXXXXXXXXX' con tu ID de medición de Google Analytics
+    </script>
     <style>
         /* Estilos generales */
         * {
@@ -213,28 +221,6 @@
             text-decoration: none;
             cursor: pointer;
         }
-
-        .modal-buttons {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .modal-button {
-            background-color: #6aaa64;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.2s ease;
-        }
-
-        .modal-button:hover {
-            background-color: #5a9a54;
-        }
     </style>
 </head>
 <body>
@@ -289,8 +275,6 @@
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <p id="modalMessage"></p>
-            <div class="modal-buttons" id="modalButtons">
-                </div>
         </div>
     </div>
 
@@ -373,6 +357,13 @@
                 lastPlayedDate = today;
                 gamesPlayedToday = 0;
                 saveGameState(); // Guardar el nuevo estado
+                // Enviar evento a Google Analytics: Reinicio diario
+                if (typeof gtag === 'function') {
+                    gtag('event', 'game_reset', {
+                        'event_category': 'game_status',
+                        'event_label': 'daily_reset'
+                    });
+                }
             }
         }
 
@@ -383,50 +374,31 @@
         }
 
         // Función para mostrar un modal personalizado
-        function showModal(message, showPlayAgainButton = false) {
+        function showModal(message) {
             const modal = document.getElementById('myModal');
             const modalMessage = document.getElementById('modalMessage');
-            const modalButtons = document.getElementById('modalButtons');
-
             modalMessage.textContent = message;
-            modalButtons.innerHTML = ''; // Limpiar botones anteriores
-
-            if (showPlayAgainButton) {
-                const playAgainBtn = document.createElement('button');
-                playAgainBtn.textContent = 'Jugar de Nuevo';
-                playAgainBtn.classList.add('modal-button');
-                playAgainBtn.addEventListener('click', resetGame);
-                modalButtons.appendChild(playAgainBtn);
-            }
-            
             modal.style.display = 'flex'; // Mostrar el modal
+            // Enviar evento a Google Analytics: Modal mostrado
+            if (typeof gtag === 'function') {
+                gtag('event', 'modal_view', {
+                    'event_category': 'ui_interaction',
+                    'event_label': message
+                });
+            }
         }
 
         // Función para cerrar el modal
         function closeModal() {
             const modal = document.getElementById('myModal');
             modal.style.display = 'none'; // Ocultar el modal
-        }
-
-        // Función para reiniciar el juego
-        function resetGame() {
-            currentRow = 0;
-            currentCol = 0;
-            currentGuess = '';
-            gameOver = false;
-            keyboardState = {}; // Reiniciar el estado del teclado
-
-            initBoard(); // Limpiar el tablero visualmente
-            showMessage('¡Adivina la palabra de 5 letras!'); // Mensaje inicial
-            selectRandomWord(); // Seleccionar nueva palabra
-
-            // Resetear visualmente las teclas del teclado
-            const keys = document.querySelectorAll('.key');
-            keys.forEach(key => {
-                key.classList.remove('correct', 'present', 'absent');
-            });
-
-            closeModal(); // Cerrar el modal
+            // Enviar evento a Google Analytics: Modal cerrado
+            if (typeof gtag === 'function') {
+                gtag('event', 'modal_close', {
+                    'event_category': 'ui_interaction',
+                    'event_label': 'modal_closed'
+                });
+            }
         }
 
         // Seleccionar palabra aleatoria al iniciar
@@ -477,6 +449,15 @@
                 setTimeout(() => {
                     cell.style.animation = '';
                 }, 100);
+
+                // Enviar evento a Google Analytics: Tecla presionada
+                if (typeof gtag === 'function') {
+                    gtag('event', 'key_press', {
+                        'event_category': 'game_interaction',
+                        'event_label': 'letter_typed',
+                        'key': letter.toUpperCase()
+                    });
+                }
             }
         }
         
@@ -489,6 +470,13 @@
                 const cell = document.getElementById(`cell-${currentRow}-${currentCol}`);
                 cell.textContent = '';
                 currentGuess = currentGuess.slice(0, -1);
+                // Enviar evento a Google Analytics: Tecla Backspace presionada
+                if (typeof gtag === 'function') {
+                    gtag('event', 'key_press', {
+                        'event_category': 'game_interaction',
+                        'event_label': 'backspace_pressed'
+                    });
+                }
             }
         }
         
@@ -582,7 +570,7 @@
         // Función para procesar Enter
         function submitGuess() {
             if (gameOver) return;
-            if (gamesPlayedToday >= MAX_GAMES_PER_DAY && currentGuess !== targetWord) { // Solo si no ha ganado y el límite se ha alcanzado
+            if (gamesPlayedToday >= MAX_GAMES_PER_DAY) {
                 showModal(`Has alcanzado el límite de ${MAX_GAMES_PER_DAY} palabras por día. Vuelve mañana.`);
                 return;
             }
@@ -592,33 +580,68 @@
                     const result = evaluateGuess();
                     colorCells(result);
                     
+                    // Enviar evento a Google Analytics: Intento de palabra válido
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'word_guess', {
+                            'event_category': 'game_interaction',
+                            'event_label': 'valid_guess',
+                            'word': currentGuess.toUpperCase(),
+                            'row': currentRow + 1,
+                            'result': result.join(',')
+                        });
+                    }
+
                     // Verificar si ganó
                     if (currentGuess === targetWord) {
                         setTimeout(() => {
+                            showModal(`¡Felicidades! La palabra era ${targetWord}`);
                             gameOver = true;
                             gamesPlayedToday++;
                             saveGameState();
-                            showModal(`¡Felicidades! La palabra era ${targetWord}`, gamesPlayedToday < MAX_GAMES_PER_DAY);
+                            // Enviar evento a Google Analytics: Juego ganado
+                            if (typeof gtag === 'function') {
+                                gtag('event', 'game_end', {
+                                    'event_category': 'game_status',
+                                    'event_label': 'won',
+                                    'attempts': currentRow + 1,
+                                    'word': targetWord
+                                });
+                            }
                         }, 2000);
                     } 
                     // Verificar si perdió
                     else if (currentRow === 5) {
                         setTimeout(() => {
+                            showModal(`Game Over. La palabra era: ${targetWord}`);
                             gameOver = true;
                             gamesPlayedToday++;
                             saveGameState();
-                            showModal(`Game Over. La palabra era: ${targetWord}`, gamesPlayedToday < MAX_GAMES_PER_DAY);
+                            // Enviar evento a Google Analytics: Juego perdido
+                            if (typeof gtag === 'function') {
+                                gtag('event', 'game_end', {
+                                    'event_category': 'game_status',
+                                    'event_label': 'lost',
+                                    'attempts': currentRow + 1,
+                                    'word': targetWord
+                                });
+                            }
                         }, 2000);
                     }
                     
-                    // Preparar siguiente intento si el juego no ha terminado
-                    if (!gameOver) {
-                        currentRow++;
-                        currentCol = 0;
-                        currentGuess = '';
-                    }
+                    // Preparar siguiente intento
+                    currentRow++;
+                    currentCol = 0;
+                    currentGuess = '';
                 } else {
                     showMessage('Palabra no válida');
+                    // Enviar evento a Google Analytics: Intento de palabra inválido
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'word_guess', {
+                            'event_category': 'game_interaction',
+                            'event_label': 'invalid_guess',
+                            'word': currentGuess.toUpperCase()
+                        });
+                    }
                 }
             } else {
                 showMessage('La palabra debe tener 5 letras');
@@ -645,6 +668,13 @@
             } else if (key >= 'a' && key <= 'z' || key === 'ñ') {
                 addLetter(key);
             }
+            // Enviar evento a Google Analytics: Clic en tecla virtual
+            if (typeof gtag === 'function') {
+                gtag('event', 'virtual_key_click', {
+                    'event_category': 'game_interaction',
+                    'event_label': key.toUpperCase()
+                });
+            }
         }
         
         // Capturar teclas del teclado físico
@@ -667,6 +697,13 @@
             // Tecla Enter para enviar
             else if (key === 'enter') {
                 submitGuess();
+            }
+            // Enviar evento a Google Analytics: Tecla física presionada
+            if (typeof gtag === 'function') {
+                gtag('event', 'physical_key_press', {
+                    'event_category': 'game_interaction',
+                    'event_label': key.toUpperCase()
+                });
             }
         });
         
@@ -693,6 +730,13 @@
             } else {
                 selectRandomWord();
                 showMessage('¡Adivina la palabra de 5 letras!');
+                // Enviar evento a Google Analytics: Juego iniciado
+                if (typeof gtag === 'function') {
+                    gtag('event', 'game_start', {
+                        'event_category': 'game_status',
+                        'event_label': 'new_game'
+                    });
+                }
             }
 
             // Configurar el botón de cierre del modal
