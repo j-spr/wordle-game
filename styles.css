@@ -196,6 +196,12 @@ h1 {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
+.modal-content p {
+    line-height: 1.5;
+    white-space: pre-line; /* Esto permite que los \n funcionen como saltos de línea */
+    margin-bottom: 10px;
+}
+
 .close-button {
     color: #aaa;
     float: right;
@@ -208,4 +214,21 @@ h1 {
     color: #fff;
     text-decoration: none;
     cursor: pointer;
+}
+
+.play-again-btn {
+    background-color: #6aaa64;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.2s ease;
+}
+
+.play-again-btn:hover {
+    background-color: #5a9a54;
 }

@@ -2,9 +2,9 @@
 const PALABRAS_POSIBLES = [
     'ABETO', 'ABONO', 'ABRIL', 'ACEITE', 'ACTOR', 'ADIOS', 'AFORO', 'AGAVE', 'AGUJA', 'AHORA', 'AJENO', 'ALAMO', 'ALBUM', 'ALFIL', 'ALGAS', 'ALIEN', 'ALTAR', 'AMADO', 'AMAGO', 'AMBOS', 'AMPLI', 'ANCLA', 'ANGEL', 'ANIMO', 'ANTRO', 'APODO', 'ARENA', 'ARIDO', 'ARNES', 'ASADO', 'ATLAS', 'AUDIO', 'AVENA', 'AVION', 'AYUDA', 'AZTEC', 'BAILE', 'BANDA', 'BARON', 'BARCO',
     'BATON', 'BELLO', 'BINGO', 'BLUSA', 'BOMBA', 'BORDE', 'BRAVO', 'BROTE', 'BUENO', 'BUSCA', 'CABAL', 'CABRE', 'CACAO', 'CADIZ', 'CAIDA', 'CALMA', 'CAMPO', 'CAOBA', 'CARGA', 'CARNE', 'CARTA', 'CAUCE', 'CAUSE', 'CEBRA', 'CERCO', 'CHICA', 'CHINO', 'CIELO', 'CINCO', 'CINTA', 'CIRCO', 'CLARO', 'COSTA', 'CREMA', 'CUEVA', 'CURSO', 'DANZA', 'DATOS', 'DEJAR', 'DESEO',
-    'DIETA', 'DIGNO', 'DISCO', 'DOLOR', 'DONAR', 'DRAMA', 'DUCHA', 'DULCE', 'EBANO', 'EDWIN', 'ELENA', 'ENERO', 'ENTRE', 'EPOCA', 'ERROR', 'ETICA', 'ETNIA', 'EURO',  'EXTRA', 'FALDA', 'FANGO', 'FECHA', 'FELIZ', 'FERIA', 'FIBRA', 'FINCA', 'FLACO', 'FLAMA', 'FLORA', 'FORMA', 'FRASE', 'FRENO', 'FRUTO', 'FUEGO', 'FUERA', 'FURIA', 'GANAR', 'GATOS', 'GENIO', 'GENTE',
-    'GIRAR', 'GLOBO', 'GORRA', 'GRADO', 'GRANO', 'GRAPA', 'GRASA', 'GRAVE', 'GRIPE', 'GRUPO', 'GUANO', 'GUAPO', 'GUION', 'GUSANO', 'HABER', 'HABLA', 'HACIA', 'HAITI', 'HARTA', 'HASTA', 'HELIO', 'HIELO', 'HIERRO', 'HIMNO', 'HOGAR', 'HONGO', 'HONOR', 'HOTEL', 'HUCHA', 'HUESO', 'HUMOR', 'IDEAL', 'IGUAL', 'INDIA', 'INDIO', 'INGLES', 'INTRO', 'JABON', 'JAMON', 'JARDIN',
-    'JOVEN', 'JUEGO', 'JUNTO', 'KIWIS', 'LAVAR', 'LEMON', 'LETRA', 'LIBRE', 'LIBRO', 'LINEA', 'LISTA', 'LLAMA', 'LLANO', 'LLUVIA', 'LOBO', 'LOCAL', 'LOCO', 'LOGRO',  'LUCHA', 'LUGAR', 'LUNAR', 'MADRE', 'MAGIA', 'MALTA', 'MANDO', 'MANGO', 'MANOS', 'MAPLE', 'MARCA', 'MARZO', 'MASA', 'MAYOR', 'MELON', 'MENOR', 'MESA', 'METRO', 'MICRO', 'MIEL',  'MIRAR', 'MIXED',
+    'DIETA', 'DIGNO', 'DISCO', 'DOLOR', 'DONAR', 'DRAMA', 'DUCHA', 'DULCE', 'EBANO', 'EDWIN', 'ELENA', 'ENERO', 'ENTRE', 'EPOCA', 'ERROR', 'ETICA', 'ETNIA', 'EURO',  'EXTRA', 'FALDA', 'FANGO', 'FECHA', 'FELIZ', 'FERIA', 'FIBRA', 'FINCA', 'FLACO', 'FLAMA', 'FLORA', 'FORMA', 'FRASE', 'FRENO', 'FRUTO', 'FUEGO', 'FUERA', 'FURIA', 'GANAR', 'GATOS', 'GENIO', 'GENTE', 'GORDO',
+    'GIRAR', 'GLOBO', 'GORRA', 'GRADO', 'GRANO', 'GRAPA', 'GRASA', 'GRAVE', 'GRIPE', 'GRUPO', 'GUANO', 'GUAPO', 'GUION', 'HABER', 'HABLA', 'HACIA', 'HAITI', 'HARTA', 'HASTA', 'HELIO', 'HIELO', 'HIERRO', 'HIMNO', 'HOGAR', 'HONGO', 'HONOR', 'HOTEL', 'HUCHA', 'HUESO', 'HUMOR', 'IDEAL', 'IGUAL', 'INDIA', 'INDIO', 'INGLES', 'INTRO', 'JABON', 'JAMON', 'JARDIN',
+    'JOVEN', 'JUEGO', 'JUNTO', 'KIWIS', 'LAVAR', 'LETRA', 'LIBRE', 'LIBRO', 'LINEA', 'LISTA', 'LLAMA', 'LLANO', 'LLUVIA',  'LOCAL', 'LOGRO',  'LUCHA', 'LUGAR', 'LUNAR', 'MADRE', 'MAGIA', 'MALTA', 'MANDO', 'MANGO', 'MANOS', 'MAPLE', 'MARCA', 'MARZO', 'MASA', 'MAYOR', 'MELON', 'MENOR', 'MESA', 'METRO', 'MICRO', 'MIEL',  'MIRAR', 'MIXED',
     'MODAL', 'MORAL', 'MORIR', 'MOVER', 'MUCHO', 'MUNDO', 'MUSGO', 'NACER', 'NADA', 'NEGRO',  'NIEVE', 'NIVEL', 'NOBLE', 'NOCHE', 'NORTE', 'NOVIA', 'NUBE', 'NUEVO',  'NUNCA', 'OCASO', 'OCEAN', 'ODIAR', 'OESTE', 'OPERA', 'ORDEN', 'OREJA', 'OSITO', 'OTROS', 'OVALO', 'PADRE', 'PAGAR', 'PAGINA', 'PALMA', 'PANDA', 'PANEL', 'PAPEL', 'PARIS', 'PARTE', 'PASAR', 'PASTA',
     'PATATA', 'PATIO', 'PAUSA', 'PEACE', 'PECHO', 'PEDIR', 'PELEA', 'PELLA', 'PERRO', 'PIANO',  'PICAR', 'PIEZA', 'PINTA', 'PIZZA', 'PLANO', 'PLATA', 'PLAYA', 'PLAZA', 'PLUMA', 'PODER', 'POEMA', 'POETA', 'POKER', 'POLO', 'PONTE', 'PRECIO', 'PRIMA', 'PRIMO', 'PROFE', 'PUNTO', 'QUESO', 'QUIEN', 'QUITO', 'RADIO', 'RAMAT', 'RANGO', 'RAPOR', 'RATIO', 'RATON', 'RAZON', 
     'REINA', 'REINO', 'RELOJ', 'RESTO', 'RIFLE', 'RITMO', 'ROBLE', 'ROBOT', 'RONDA', 'ROSAS', 'RUGBY', 'RUIDO', 'SABER', 'SABOR', 'SALON', 'SALUD', 'SANTA', 'SANTO', 'SAXO', 'SECAR',  'SEGUN', 'SELVA', 'SEÑOR', 'SERIE', 'SIGLO', 'SILLA', 'SOBRE', 'SODA',  'SOFIA', 'SOLAR', 'SOLO', 'SONGE',  'SONIA', 'SUPER', 'TABLE', 'TACTO', 'TANGO', 'TANTO', 'TARDE', 'TECLA', 
@@ -82,7 +82,9 @@ function showModal(message) {
 // Función para cerrar el modal
 function closeModal() {
     const modal = document.getElementById('myModal');
-    modal.style.display = 'none'; // Ocultar el modal
+    modal.style.display = 'none';
+    // Ocultar el botón cuando se cierre el modal
+    document.getElementById('playAgainBtn').style.display = 'none';
     // Enviar evento a Google Analytics: Modal cerrado
     if (typeof gtag === 'function') {
         gtag('event', 'modal_close', {
@@ -282,40 +284,45 @@ function submitGuess() {
                 });
             }
 
-            // Verificar si ganó
+            // En caso de ganar:
             if (currentGuess === targetWord) {
                 setTimeout(() => {
-                    showModal(`¡Felicidades! La palabra era ${targetWord}`);
-                    gameOver = true;
                     gamesPlayedToday++;
                     saveGameState();
-                    // Enviar evento a Google Analytics: Juego ganado
-                    if (typeof gtag === 'function') {
-                        gtag('event', 'game_end', {
-                            'event_category': 'game_status',
-                            'event_label': 'won',
-                            'attempts': currentRow + 1,
-                            'word': targetWord
-                        });
+                    
+                    let message;
+                    if (gamesPlayedToday >= MAX_GAMES_PER_DAY) {
+                        message = `¡Felicidades! La palabra era ${targetWord}\n\n¡Has completado tus ${MAX_GAMES_PER_DAY} palabras del día!\nVuelve mañana para más desafíos.`;
+                    } else {
+                        message = `¡Felicidades! La palabra era ${targetWord}\n\nTe queda ${MAX_GAMES_PER_DAY - gamesPlayedToday} palabra más hoy.`;
+                        document.getElementById('playAgainBtn').style.display = 'block';
                     }
+                    
+                    showModal(message);
+                    gameOver = true;
+                    
+                    // Google Analytics code...
                 }, 2000);
-            } 
-            // Verificar si perdió
+            }
+
+            // En caso de perder:
             else if (currentRow === 5) {
                 setTimeout(() => {
-                    showModal(`Lo sentimos. La palabra era: ${targetWord}`);
-                    gameOver = true;
                     gamesPlayedToday++;
                     saveGameState();
-                    // Enviar evento a Google Analytics: Juego perdido
-                    if (typeof gtag === 'function') {
-                        gtag('event', 'game_end', {
-                            'event_category': 'game_status',
-                            'event_label': 'lost',
-                            'attempts': currentRow + 1,
-                            'word': targetWord
-                        });
+                    
+                    let message;
+                    if (gamesPlayedToday >= MAX_GAMES_PER_DAY) {
+                        message = `Lo sentimos. La palabra era: ${targetWord}\n\n¡Has completado tus ${MAX_GAMES_PER_DAY} palabras del día!\nVuelve mañana para más desafíos.`;
+                    } else {
+                        message = `Lo sentimos. La palabra era: ${targetWord}\n\nTe queda ${MAX_GAMES_PER_DAY - gamesPlayedToday} palabra más hoy.`;
+                        document.getElementById('playAgainBtn').style.display = 'block';
                     }
+                    
+                    showModal(message);
+                    gameOver = true;
+                    
+                    // Google Analytics code...
                 }, 2000);
             }
             
@@ -416,11 +423,12 @@ document.addEventListener('DOMContentLoaded', function() {
     initKeyboard();
     
     if (gamesPlayedToday >= MAX_GAMES_PER_DAY) {
-        showModal(`Has alcanzado el límite de ${MAX_GAMES_PER_DAY} palabras por día. Vuelve mañana.`);
-        gameOver = true; // Deshabilitar el juego si el límite se ha alcanzado
+    showModal(`¡Bienvenido de vuelta!\n\nYa completaste tus ${MAX_GAMES_PER_DAY} palabras de hoy.\nVuelve mañana para más desafíos.`);
+    gameOver = true;
     } else {
-        selectRandomWord();
-        showMessage('¡Adivina la palabra de 5 letras!');
+    selectRandomWord();
+    const remainingGames = MAX_GAMES_PER_DAY - gamesPlayedToday;
+    showMessage(`¡Adivina la palabra de 5 letras! (${remainingGames} ${remainingGames === 1 ? 'palabra' : 'palabras'} restantes hoy)`);
         // Enviar evento a Google Analytics: Juego iniciado
         if (typeof gtag === 'function') {
             gtag('event', 'game_start', {
@@ -439,3 +447,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Configurar el botón "Jugar de nuevo"
+document.getElementById('playAgainBtn').addEventListener('click', resetGame);
+
+// Función para resetear el juego
+function resetGame() {
+    currentRow = 0;
+    currentCol = 0;
+    currentGuess = '';
+    gameOver = false;
+    keyboardState = {};
+    
+    // Limpiar el tablero
+    initBoard();
+    
+    // Resetear el teclado visual
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => {
+        key.classList.remove('correct', 'present', 'absent');
+    });
+    
+    // Seleccionar nueva palabra
+    selectRandomWord();
+    
+    // Mostrar mensaje inicial
+    showMessage('¡Adivina la palabra de 5 letras!');
+    
+    // Cerrar modal
+    closeModal();
+}
