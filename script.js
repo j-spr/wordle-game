@@ -1,17 +1,3 @@
-// Banco de palabras en español de 5 letras
-const PALABRAS_POSIBLES = [
-    'ABETO', 'ABONO', 'ABRIL', 'ACEITE', 'ACTOR', 'ADIOS', 'AFORO', 'AGAVE', 'AGUJA', 'AHORA', 'AJENO', 'ALAMO', 'ALBUM', 'ALFIL', 'ALGAS', 'ALIEN', 'ALTAR', 'AMADO', 'AMAGO', 'AMBOS', 'AMPLI', 'ANCLA', 'ANGEL', 'ANIMO', 'ANTRO', 'APODO', 'ARENA', 'ARIDO', 'ARNES', 'ASADO', 'ATLAS', 'AUDIO', 'AVENA', 'AVION', 'AYUDA', 'AZTEC', 'BAILE', 'BANDA', 'BARON', 'BARCO',
-    'BATON', 'BELLO', 'BINGO', 'BLUSA', 'BOMBA', 'BORDE', 'BRAVO', 'BROTE', 'BUENO', 'BUSCA', 'CABAL', 'CABRE', 'CACAO', 'CADIZ', 'CAIDA', 'CALMA', 'CAMPO', 'CAOBA', 'CARGA', 'CARNE', 'CARTA', 'CAUCE', 'CAUSE', 'CEBRA', 'CERCO', 'CHICA', 'CHINO', 'CIELO', 'CINCO', 'CINTA', 'CIRCO', 'CLARO', 'COSTA', 'CREMA', 'CUEVA', 'CURSO', 'DANZA', 'DATOS', 'DEJAR', 'DESEO',
-    'DIETA', 'DIGNO', 'DISCO', 'DOLOR', 'DONAR', 'DRAMA', 'DUCHA', 'DULCE', 'EBANO', 'EDWIN', 'ELENA', 'ENERO', 'ENTRE', 'EPOCA', 'ERROR', 'ETICA', 'ETNIA', 'EURO',  'EXTRA', 'FALDA', 'FANGO', 'FECHA', 'FELIZ', 'FERIA', 'FIBRA', 'FINCA', 'FLACO', 'FLAMA', 'FLORA', 'FORMA', 'FRASE', 'FRENO', 'FRUTO', 'FUEGO', 'FUERA', 'FURIA', 'GANAR', 'GATOS', 'GENIO', 'GENTE', 'GORDO',
-    'GIRAR', 'GLOBO', 'GORRA', 'GRADO', 'GRANO', 'GRAPA', 'GRASA', 'GRAVE', 'GRIPE', 'GRUPO', 'GUANO', 'GUAPO', 'GUION', 'HABER', 'HABLA', 'HACIA', 'HAITI', 'HARTA', 'HASTA', 'HELIO', 'HIELO', 'HIERRO', 'HIMNO', 'HOGAR', 'HONGO', 'HONOR', 'HOTEL', 'HUCHA', 'HUESO', 'HUMOR', 'IDEAL', 'IGUAL', 'INDIA', 'INDIO', 'INGLES', 'INTRO', 'JABON', 'JAMON', 'JARDIN',
-    'JOVEN', 'JUEGO', 'JUNTO', 'KIWIS', 'LAVAR', 'LETRA', 'LIBRE', 'LIBRO', 'LINEA', 'LISTA', 'LLAMA', 'LLANO', 'LLUVIA',  'LOCAL', 'LOGRO',  'LUCHA', 'LUGAR', 'LUNAR', 'MADRE', 'MAGIA', 'MALTA', 'MANDO', 'MANGO', 'MANOS', 'MAPLE', 'MARCA', 'MARZO', 'MASA', 'MAYOR', 'MELON', 'MENOR', 'MESA', 'METRO', 'MICRO', 'MIEL',  'MIRAR', 'MIXED',
-    'MODAL', 'MORAL', 'MORIR', 'MOVER', 'MUCHO', 'MUNDO', 'MUSGO', 'NACER', 'NADA', 'NEGRO',  'NIEVE', 'NIVEL', 'NOBLE', 'NOCHE', 'NORTE', 'NOVIA', 'NUBE', 'NUEVO',  'NUNCA', 'OCASO', 'OCEAN', 'ODIAR', 'OESTE', 'OPERA', 'ORDEN', 'OREJA', 'OSITO', 'OTROS', 'OVALO', 'PADRE', 'PAGAR', 'PAGINA', 'PALMA', 'PANDA', 'PANEL', 'PAPEL', 'PARIS', 'PARTE', 'PASAR', 'PASTA',
-    'PATATA', 'PATIO', 'PAUSA', 'PEACE', 'PECHO', 'PEDIR', 'PELEA', 'PELLA', 'PERRO', 'PIANO',  'PICAR', 'PIEZA', 'PINTA', 'PIZZA', 'PLANO', 'PLATA', 'PLAYA', 'PLAZA', 'PLUMA', 'PODER', 'POEMA', 'POETA', 'POKER', 'POLO', 'PONTE', 'PRECIO', 'PRIMA', 'PRIMO', 'PROFE', 'PUNTO', 'QUESO', 'QUIEN', 'QUITO', 'RADIO', 'RAMAT', 'RANGO', 'RAPOR', 'RATIO', 'RATON', 'RAZON', 
-    'REINA', 'REINO', 'RELOJ', 'RESTO', 'RIFLE', 'RITMO', 'ROBLE', 'ROBOT', 'RONDA', 'ROSAS', 'RUGBY', 'RUIDO', 'SABER', 'SABOR', 'SALON', 'SALUD', 'SANTA', 'SANTO', 'SAXO', 'SECAR',  'SEGUN', 'SELVA', 'SEÑOR', 'SERIE', 'SIGLO', 'SILLA', 'SOBRE', 'SODA',  'SOFIA', 'SOLAR', 'SOLO', 'SONGE',  'SONIA', 'SUPER', 'TABLE', 'TACTO', 'TANGO', 'TANTO', 'TARDE', 'TECLA', 
-    'TENIS', 'TERRA', 'TEXTO', 'TIEMPO', 'TIGER', 'TINTA', 'TIPO', 'TITAN', 'TIZÓN', 'TODAS',  'TOKYO', 'TOMAR', 'TOQUE', 'TORRE', 'TOTAL', 'TOTEM', 'TRAGO', 'TRATO', 'TRECE', 'TRIGO', 'TRINO', 'TRONO', 'TUBER', 'TUMOR', 'ULTRA', 'UNION', 'URBAN', 'USUAL', 'VACIO', 'VALER', 'VALLE', 'VALOR', 'VAPOR', 'VECES', 'VENDA', 'VERDE', 'VIDEO', 'VIEJO', 'VILLA', 'VIRUS', 
-    'VISTA', 'VIVIR', 'VOCAL', 'VODKA', 'VOLAR', 'WALES', 'WHALE', 'WORLD', 'YACHT', 'YOGA',  'ZEBRA', 'ZORRO'
-];
-
 // Variables del juego
 let currentRow = 0;
 let currentCol = 0;
@@ -19,6 +5,16 @@ let currentGuess = '';
 let targetWord = '';
 let gameOver = false;
 let keyboardState = {}; // Para rastrear el estado de las teclas
+let PALABRAS_POSIBLES = []; // Banco de palabras en español de 5 letras
+
+// Cargar las palabras desde el archivo JSON
+fetch('palabrasESP.json')
+  .then(response => response.json())
+  .then(data => {
+    PALABRAS_POSIBLES = data.palabrasESP;
+    selectRandomWord(); // Inicializar la palabra una vez que se han cargado los datos
+  })
+  .catch(error => console.error('Error cargando las palabras:', error));
 
 // Variables para el límite diario de palabras
 const MAX_GAMES_PER_DAY = 2;
@@ -316,7 +312,7 @@ function submitGuess() {
                     
                     let message;
                     if (gamesPlayedToday >= MAX_GAMES_PER_DAY) {
-                        message = `Lo sentimos. La palabra era: ${targetWord}\n\n¡Has completado tus ${MAX_GAMES_PER_DAY} palabras del día!\nVuelve mañana para más desafíos.`;
+                        message = `La palabra era: ${targetWord}\n\n¡Has completado tus ${MAX_GAMES_PER_DAY} palabras del día!\nVuelve mañana para más desafíos.`;
                     } else {
                         message = `Lo sentimos. La palabra era: ${targetWord}\n\nTe queda ${MAX_GAMES_PER_DAY - gamesPlayedToday} palabra más hoy.`;
                         document.getElementById('playAgainBtn').style.display = 'block';
@@ -480,3 +476,4 @@ function resetGame() {
     // Cerrar modal
     closeModal();
 }
+
