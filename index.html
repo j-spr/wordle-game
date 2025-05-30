@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wordle en Español</title>
     <style>
+        /* Estilos generales */
         * {
             margin: 0;
             padding: 0;
@@ -12,68 +13,74 @@
         }
         
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif; /* Usando Inter como fuente */
             background-color: #121213;
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            min-height: 100vh; /* Ocupa toda la altura de la ventana */
+            padding: 10px; /* Reducir padding para más espacio */
+            justify-content: space-between; /* Distribuye el espacio entre los elementos */
         }
         
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem; /* Reducir tamaño del título */
             font-weight: bold;
-            margin: 20px 0;
+            margin: 15px 0; /* Reducir margen */
             text-align: center;
             border-bottom: 1px solid #3a3a3c;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
             width: 100%;
-            max-width: 500px;
+            max-width: 450px; /* Reducir ancho máximo */
+            border-radius: 8px; /* Bordes redondeados */
         }
         
         .game-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 10px; /* Reducir espacio entre elementos */
             width: 100%;
-            max-width: 500px;
+            max-width: 450px; /* Reducir ancho máximo */
+            flex-grow: 1; /* Permite que el contenedor crezca */
+            justify-content: center; /* Centra el contenido verticalmente */
         }
         
         .board {
             display: grid;
             grid-template-rows: repeat(6, 1fr);
-            gap: 5px;
-            margin: 20px 0;
+            gap: 4px; /* Reducir espacio entre filas */
+            margin: 10px 0; /* Reducir margen */
         }
         
         .row {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 5px;
+            gap: 4px; /* Reducir espacio entre celdas */
         }
         
         .cell {
-            width: 62px;
-            height: 62px;
+            width: 55px; /* Reducir tamaño de la celda */
+            height: 55px; /* Reducir tamaño de la celda */
             border: 2px solid #3a3a3c;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 1.8rem; /* Reducir tamaño de fuente */
             font-weight: bold;
             text-transform: uppercase;
             background-color: #121213;
             color: white;
             transition: all 0.1s ease;
+            border-radius: 4px; /* Bordes redondeados */
         }
         
         .cell:not(:empty) {
             border-color: #565758;
         }
         
+        /* Animaciones */
         @keyframes pop {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
@@ -88,33 +95,35 @@
         
         .message {
             height: 30px;
-            font-size: 1.2rem;
+            font-size: 1.1rem; /* Reducir tamaño de fuente */
             text-align: center;
-            margin: 10px 0;
+            margin: 5px 0; /* Reducir margen */
         }
         
         .keyboard {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-top: 20px;
+            gap: 6px; /* Reducir espacio entre filas del teclado */
+            margin-top: 15px; /* Reducir margen superior */
             width: 100%;
+            max-width: 450px; /* Ajustar ancho máximo */
+            padding-bottom: 10px; /* Espacio inferior para el teclado */
         }
         
         .keyboard-row {
             display: flex;
             justify-content: center;
-            gap: 6px;
+            gap: 4px; /* Reducir espacio entre teclas */
         }
         
         .key {
-            min-width: 43px;
-            height: 58px;
+            min-width: 38px; /* Reducir ancho mínimo de la tecla */
+            height: 50px; /* Reducir altura de la tecla */
             border: none;
             border-radius: 4px;
             background-color: #818384;
             color: white;
-            font-size: 14px;
+            font-size: 13px; /* Reducir tamaño de fuente */
             font-weight: bold;
             cursor: pointer;
             display: flex;
@@ -134,10 +143,11 @@
         }
         
         .key.wide {
-            min-width: 65px;
-            font-size: 12px;
+            min-width: 60px; /* Reducir ancho de teclas anchas */
+            font-size: 11px; /* Reducir tamaño de fuente */
         }
         
+        /* Colores de las teclas según el estado */
         .key.correct {
             background-color: #6aaa64;
         }
@@ -161,6 +171,70 @@
         .key.absent:hover {
             background-color: #2a2a2c;
         }
+
+        /* Estilos para el modal */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed; /* Posición fija en la pantalla */
+            z-index: 1; /* Por encima de otros elementos */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Permite scroll si el contenido es muy grande */
+            background-color: rgba(0,0,0,0.7); /* Fondo oscuro semitransparente */
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+        }
+
+        .modal-content {
+            background-color: #2a2a2c;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .modal-button {
+            background-color: #6aaa64;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .modal-button:hover {
+            background-color: #5a9a54;
+        }
     </style>
 </head>
 <body>
@@ -168,8 +242,7 @@
     
     <div class="game-container">
         <div class="board" id="board">
-            <!-- Las filas se generarán con JavaScript -->
-        </div>
+            </div>
         
         <div class="message" id="message"></div>
         
@@ -209,6 +282,15 @@
                 <button class="key" data-key="m">M</button>
                 <button class="key wide" data-key="backspace">⌫</button>
             </div>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <p id="modalMessage"></p>
+            <div class="modal-buttons" id="modalButtons">
+                </div>
         </div>
     </div>
 
@@ -262,12 +344,96 @@
         let targetWord = '';
         let gameOver = false;
         let keyboardState = {}; // Para rastrear el estado de las teclas
-        
+
+        // Variables para el límite diario de palabras
+        const MAX_GAMES_PER_DAY = 2;
+        let gamesPlayedToday = 0;
+        let lastPlayedDate = '';
+
+        // Función para obtener la fecha actual en formato YYYY-MM-DD
+        function getTodayDate() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Meses son 0-11
+            const day = String(today.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Función para cargar el estado del juego desde localStorage
+        function loadGameState() {
+            const storedDate = localStorage.getItem('lastPlayedDate');
+            const storedGames = parseInt(localStorage.getItem('gamesPlayedToday') || '0', 10);
+            const today = getTodayDate();
+
+            if (storedDate === today) {
+                lastPlayedDate = storedDate;
+                gamesPlayedToday = storedGames;
+            } else {
+                // Si es un nuevo día, resetear el contador de juegos
+                lastPlayedDate = today;
+                gamesPlayedToday = 0;
+                saveGameState(); // Guardar el nuevo estado
+            }
+        }
+
+        // Función para guardar el estado del juego en localStorage
+        function saveGameState() {
+            localStorage.setItem('lastPlayedDate', lastPlayedDate);
+            localStorage.setItem('gamesPlayedToday', gamesPlayedToday);
+        }
+
+        // Función para mostrar un modal personalizado
+        function showModal(message, showPlayAgainButton = false) {
+            const modal = document.getElementById('myModal');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalButtons = document.getElementById('modalButtons');
+
+            modalMessage.textContent = message;
+            modalButtons.innerHTML = ''; // Limpiar botones anteriores
+
+            if (showPlayAgainButton) {
+                const playAgainBtn = document.createElement('button');
+                playAgainBtn.textContent = 'Jugar de Nuevo';
+                playAgainBtn.classList.add('modal-button');
+                playAgainBtn.addEventListener('click', resetGame);
+                modalButtons.appendChild(playAgainBtn);
+            }
+            
+            modal.style.display = 'flex'; // Mostrar el modal
+        }
+
+        // Función para cerrar el modal
+        function closeModal() {
+            const modal = document.getElementById('myModal');
+            modal.style.display = 'none'; // Ocultar el modal
+        }
+
+        // Función para reiniciar el juego
+        function resetGame() {
+            currentRow = 0;
+            currentCol = 0;
+            currentGuess = '';
+            gameOver = false;
+            keyboardState = {}; // Reiniciar el estado del teclado
+
+            initBoard(); // Limpiar el tablero visualmente
+            showMessage('¡Adivina la palabra de 5 letras!'); // Mensaje inicial
+            selectRandomWord(); // Seleccionar nueva palabra
+
+            // Resetear visualmente las teclas del teclado
+            const keys = document.querySelectorAll('.key');
+            keys.forEach(key => {
+                key.classList.remove('correct', 'present', 'absent');
+            });
+
+            closeModal(); // Cerrar el modal
+        }
+
         // Seleccionar palabra aleatoria al iniciar
         function selectRandomWord() {
             const randomIndex = Math.floor(Math.random() * PALABRAS_POSIBLES.length);
             targetWord = PALABRAS_POSIBLES[randomIndex];
-            console.log('Palabra secreta:', targetWord); // Para debugging (quitar en producción)
+            // console.log('Palabra secreta:', targetWord); // Para debugging (quitar en producción)
         }
         
         // Verificar si una palabra existe en el diccionario
@@ -278,7 +444,8 @@
         // Inicializar el tablero
         function initBoard() {
             const board = document.getElementById('board');
-            
+            board.innerHTML = ''; // Limpiar el tablero antes de inicializar
+
             for (let i = 0; i < 6; i++) {
                 const row = document.createElement('div');
                 row.className = 'row';
@@ -297,7 +464,9 @@
         
         // Función para agregar una letra al tablero
         function addLetter(letter) {
-            if (currentCol < 5 && !gameOver) {
+            if (gameOver || gamesPlayedToday >= MAX_GAMES_PER_DAY) return; // No permitir jugar si el límite se ha alcanzado
+
+            if (currentCol < 5) {
                 const cell = document.getElementById(`cell-${currentRow}-${currentCol}`);
                 cell.textContent = letter.toUpperCase();
                 currentGuess += letter.toUpperCase();
@@ -313,7 +482,9 @@
         
         // Función para eliminar una letra
         function deleteLetter() {
-            if (currentCol > 0 && !gameOver) {
+            if (gameOver || gamesPlayedToday >= MAX_GAMES_PER_DAY) return; // No permitir jugar si el límite se ha alcanzado
+
+            if (currentCol > 0) {
                 currentCol--;
                 const cell = document.getElementById(`cell-${currentRow}-${currentCol}`);
                 cell.textContent = '';
@@ -411,6 +582,10 @@
         // Función para procesar Enter
         function submitGuess() {
             if (gameOver) return;
+            if (gamesPlayedToday >= MAX_GAMES_PER_DAY && currentGuess !== targetWord) { // Solo si no ha ganado y el límite se ha alcanzado
+                showModal(`Has alcanzado el límite de ${MAX_GAMES_PER_DAY} palabras por día. Vuelve mañana.`);
+                return;
+            }
             
             if (currentGuess.length === 5) {
                 if (isValidWord(currentGuess)) {
@@ -420,22 +595,28 @@
                     // Verificar si ganó
                     if (currentGuess === targetWord) {
                         setTimeout(() => {
-                            showMessage(`¡Felicidades! La palabra era ${targetWord}`);
                             gameOver = true;
+                            gamesPlayedToday++;
+                            saveGameState();
+                            showModal(`¡Felicidades! La palabra era ${targetWord}`, gamesPlayedToday < MAX_GAMES_PER_DAY);
                         }, 2000);
                     } 
                     // Verificar si perdió
                     else if (currentRow === 5) {
                         setTimeout(() => {
-                            showMessage(`Game Over. La palabra era: ${targetWord}`);
                             gameOver = true;
+                            gamesPlayedToday++;
+                            saveGameState();
+                            showModal(`Game Over. La palabra era: ${targetWord}`, gamesPlayedToday < MAX_GAMES_PER_DAY);
                         }, 2000);
                     }
                     
-                    // Preparar siguiente intento
-                    currentRow++;
-                    currentCol = 0;
-                    currentGuess = '';
+                    // Preparar siguiente intento si el juego no ha terminado
+                    if (!gameOver) {
+                        currentRow++;
+                        currentCol = 0;
+                        currentGuess = '';
+                    }
                 } else {
                     showMessage('Palabra no válida');
                 }
@@ -444,7 +625,7 @@
             }
         }
         
-        // Función para mostrar mensajes
+        // Función para mostrar mensajes temporales en el div de mensajes
         function showMessage(text) {
             const messageEl = document.getElementById('message');
             messageEl.textContent = text;
@@ -502,10 +683,26 @@
         
         // Inicializar el juego cuando se carga la página
         document.addEventListener('DOMContentLoaded', function() {
+            loadGameState(); // Cargar el estado del juego al inicio
             initBoard();
             initKeyboard();
-            selectRandomWord();
-            showMessage('¡Adivina la palabra de 5 letras!');
+            
+            if (gamesPlayedToday >= MAX_GAMES_PER_DAY) {
+                showModal(`Has alcanzado el límite de ${MAX_GAMES_PER_DAY} palabras por día. Vuelve mañana.`);
+                gameOver = true; // Deshabilitar el juego si el límite se ha alcanzado
+            } else {
+                selectRandomWord();
+                showMessage('¡Adivina la palabra de 5 letras!');
+            }
+
+            // Configurar el botón de cierre del modal
+            document.querySelector('.close-button').addEventListener('click', closeModal);
+            window.addEventListener('click', (event) => {
+                const modal = document.getElementById('myModal');
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
         });
     </script>
 </body>
