@@ -220,10 +220,12 @@ function updateKeyboardState(letter, state) {
     if (!currentState ||
         (currentState === 'absent' && (state === 'present' || state === 'correct')) ||
         (currentState === 'present' && state === 'correct')) {
+        
         keyboardState[letter] = state;
 
         // Actualizar visualmente la tecla
         const keyElement = document.querySelector(`[data-key="${letter.toLowerCase()}"]`);
+        
         if (keyElement) {
             keyElement.classList.remove('correct', 'present', 'absent');
             keyElement.classList.add(state);
@@ -232,7 +234,7 @@ function updateKeyboardState(letter, state) {
 }
 
 // Función para colorear las celdas según el resultado
-function colorCells(result) {
+function colorCells(result, guessSnapshot) {
     for (let i = 0; i < 5; i++) {
         const cell = document.getElementById(`cell-${currentRow}-${i}`);
 
@@ -241,24 +243,24 @@ function colorCells(result) {
 
             setTimeout(() => {
                 if (result[i] === 'correct') {
-                    cell.style.backgroundColor = '#6aaa64'; // Verde
+                    cell.style.backgroundColor = '#6aaa64';
                     cell.style.borderColor = '#6aaa64';
                 } else if (result[i] === 'present') {
-                    cell.style.backgroundColor = '#c9b458'; // Amarillo  
+                    cell.style.backgroundColor = '#c9b458';
                     cell.style.borderColor = '#c9b458';
                 } else {
-                    cell.style.backgroundColor = '#787c7e'; // Gris
+                    cell.style.backgroundColor = '#787c7e';
                     cell.style.borderColor = '#787c7e';
                 }
                 cell.style.color = 'white';
 
-                // Actualizar el estado del teclado
-                const letter = currentGuess[i];
+                const letter = guessSnapshot[i]; // <<< USAMOS EL SNAPSHOT
                 updateKeyboardState(letter, result[i]);
             }, 300);
         }, i * 100);
     }
 }
+
 
 // Función para procesar Enter
 function submitGuess() {
@@ -271,7 +273,8 @@ function submitGuess() {
     if (currentGuess.length === 5) {
         if (isValidWord(currentGuess)) {
             const result = evaluateGuess();
-            colorCells(result);
+            const guessSnapshot = currentGuess;
+            colorCells(result, guessSnapshot); 
 
             // Enviar evento a Google Analytics: Intento de palabra válido
             if (typeof gtag === 'function') {
