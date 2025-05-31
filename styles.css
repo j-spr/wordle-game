@@ -18,7 +18,7 @@ body {
 }
 
 h1 {
-    font-size: 2.2rem;
+    font-size: 1.8rem;  /* Reducido de 2.2rem para mejor ajuste */
     font-weight: bold;
     margin: 15px 0;
     text-align: center;
@@ -27,6 +27,14 @@ h1 {
     width: 100%;
     max-width: 450px;
     border-radius: 8px;
+}
+
+/* Media query para pantallas pequeñas */
+@media screen and (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+        padding: 0 10px 8px;
+    }
 }
 
 .game-container {
