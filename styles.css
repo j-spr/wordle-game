@@ -1,322 +1,365 @@
-/* Estilos generales */
+/* Reset y estilos generales */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f7f2e9;
-    color: #1f1f1f;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    padding: 10px;
-    justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  background-color: #f7f2e9;
+  color: #1f1f1f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100dvh;
+  overflow: hidden;
+  padding: 10px;
+  justify-content: space-between;
+}
+
+/* Header y navegación */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 450px;
+  margin: 15px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #3a3a3c;
+}
+
+.spacer {
+  width: 22px;
+  height: 22px;
 }
 
 h1 {
-    font-size: 1.8rem;  /* Reducido de 2.2rem para mejor ajuste */
-    font-weight: bold;
-    margin: 15px 0;
-    text-align: center;
-    border-bottom: 1px solid #3a3a3c;
-    padding-bottom: 8px;
-    width: 100%;
-    max-width: 450px;
-    border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  flex-grow: 1;
+  margin: 0;
 }
 
-/* Media query para pantallas pequeñas */
-@media screen and (max-width: 480px) {
-    h1 {
-        font-size: 1.5rem;
-        padding: 0 10px 8px;
-    }
+.help-btn {
+  width: 22px;
+  height: 22px;
+  font-size: 14px;
+  border-radius: 50%;
+  border: 2px solid #5f5f5f;
+  background: none;
+  color: #5f5f5f;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
+.help-btn:hover {
+  background-color: #3a3a3c;
+  color: white;
+}
+
+/* Contenedor principal del juego */
 .game-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    max-width: 450px;
-    flex-grow: 1;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 450px;
+  flex-grow: 1;
+  justify-content: center;
 }
 
-/* Estilos del tablero */
+/* Tablero de juego */
 .board {
-    display: grid;
-    grid-template-rows: repeat(6, 1fr);
-    gap: 4px;
-    margin: 10px 0;
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 4px;
+  margin: 10px 0;
 }
 
 .row {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 4px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
 }
 
 .cell {
-    width: 55px;
-    height: 55px;
-    border: 2px solid #3a3a3c;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    /* background-color: #121213; */
-    color: #333;
-    transition: all 0.1s ease;
-    border-radius: 4px;
+  width: 55px;
+  height: 55px;
+  border: 2px solid #3a3a3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #333;
+  transition: all 0.1s ease;
+  border-radius: 4px;
 }
 
 .cell:not(:empty) {
-    border-color: #565758;
-}
-
-/* Animaciones */
-@keyframes pop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-@keyframes flip {
-    0% { transform: rotateX(0); }
-    50% { transform: rotateX(90deg); }
-    100% { transform: rotateX(0); }
-}
-
-/* Mensajes */
-.message {
-    height: 30px;
-    font-size: 1.1rem;
-    text-align: center;
-    margin: 5px 0;
+  border-color: #565758;
 }
 
 /* Teclado */
 .keyboard {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 15px;
-    width: 100%;
-    max-width: 450px;
-    padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 15px;
+  width: 100%;
+  max-width: 450px;
+  padding-bottom: 10px;
 }
 
 .keyboard-row {
-    display: flex;
-    justify-content: center;
-    gap: 4px;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
 }
 
 .key {
-    min-width: 38px;
-    height: 50px;
-    border: none;
-    border-radius: 4px;
-    background-color: #636566;
-    color: white;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-transform: uppercase;
-    transition: background-color 0.1s ease;
-    user-select: none;
+  min-width: 38px;
+  height: 50px;
+  border: none;
+  border-radius: 4px;
+  background-color: #636566;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  transition: background-color 0.1s ease;
+  user-select: none;
 }
 
 .key:hover {
-    background-color: #9ca3a4;
+  background-color: #9ca3a4;
 }
 
 .key:active {
-    transform: scale(0.95);
+  transform: scale(0.95);
 }
 
 .key.wide {
-    min-width: 60px;
-    font-size: 11px;
+  min-width: 60px;
+  font-size: 11px;
 }
 
-/* Estados de las teclas */
 .key.correct {
-    background-color: #6aaa64 !important;
+  background-color: #6aaa64 !important;
 }
 
 .key.present {
-    background-color: #c9b458 !important;
+  background-color: #c9b458 !important;
 }
 
 .key.absent {
-    background-color: #3a3a3c !important;
+  background-color: #3a3a3c !important;
 }
 
 .key.correct:hover {
-    background-color: #5a9a54;
+  background-color: #5a9a54;
 }
 
 .key.present:hover {
-    background-color: #b9a448;
+  background-color: #b9a448;
 }
 
 .key.absent:hover {
-    background-color: white;
+  background-color: white;
+}
+
+/* Animaciones */
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes flip {
+  0% { transform: rotateX(0); }
+  50% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0); }
+}
+
+/* Mensajes */
+.message {
+  height: 30px;
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 5px 0;
 }
 
 /* Modal general */
 .modal {
-    display: none; /* Oculto por defecto */
-    position: fixed;
-    z-index: 1000; /* Asegura que esté por encima de todo */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.7);
-    justify-content: center;
-    align-items: center;
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-    background-color: white;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 400px;
-    text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    color: #1f1f1f; /* Asegura que el texto sea legible en el modal */
+  background-color: white;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  color: #1f1f1f;
 }
 
 .modal-content p {
-    line-height: 1.5;
-    white-space: pre-line; /* Esto permite que los \n funcionen como saltos de línea */
-    margin-bottom: 10px;
+  line-height: 1.5;
+  white-space: pre-line;
+  margin-bottom: 10px;
 }
 
 .close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .close-button:hover,
 .close-button:focus {
-    color: #333; /* Cambiado a un color oscuro para mejor contraste */
-    text-decoration: none;
+  color: #333;
+  text-decoration: none;
 }
 
 .play-again-btn {
-    background-color: #6aaa64;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: background-color 0.2s ease;
+  background-color: #6aaa64;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.2s ease;
 }
 
 .play-again-btn:hover {
-    background-color: #5a9a54;
+  background-color: #5a9a54;
 }
 
-/* Estilos específicos para el modal de instrucciones */
+/* Modal de instrucciones */
 .instructions-content {
-    max-width: 550px; /* Más grande para las instrucciones */
-    padding: 30px;
-    text-align: left; /* Alineación de texto a la izquierda para mejor lectura */
+  max-width: 550px;
+  padding: 30px;
+  text-align: left;
 }
 
 .instructions-content h2 {
-    font-size: 2rem;
-    margin-bottom: 15px;
-    text-align: center;
-    color: #3a3a3c;
+  font-size: 2rem;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #3a3a3c;
 }
 
 .instructions-content h3 {
-    font-size: 1.4rem;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    color: #3a3a3c;
+  font-size: 1.4rem;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #3a3a3c;
 }
 
 .instructions-content p {
-    font-size: 1rem;
-    margin-bottom: 8px;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.instructions-footer {
+  margin-top: 20px;
+  text-align: center;
 }
 
 .color-explanation {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    background-color: #f0f0f0;
-    padding: 15px;
-    border-radius: 8px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 8px;
 }
 
 .example-row {
-    display: flex;
-    justify-content: center;
-    gap: 4px;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 10px;
 }
 
 .example-cell {
-    width: 40px;
-    height: 40px;
-    border: 2px solid #3a3a3c;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: rgb(58, 58, 58);
-    border-radius: 4px;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #3a3a3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: rgb(58, 58, 58);
+  border-radius: 4px;
 }
 
 .example-cell.correct-example {
-    background-color: #6aaa64;
-    border-color: #6aaa64;
+  background-color: #6aaa64;
+  border-color: #6aaa64;
 }
 
 .example-cell.present-example {
-    background-color: #c9b458;
-    border-color: #c9b458;
+  background-color: #c9b458;
+  border-color: #c9b458;
 }
 
 .example-cell.absent-example {
-    background-color: #787c7e;
-    border-color: #787c7e;
+  background-color: #787c7e;
+  border-color: #787c7e;
 }
 
-/* Media Queries para responsividad */
+/* Media Queries */
 @media screen and (max-width: 480px) {
+  .help-btn,
+  .spacer {
+    width: 20px;
+    height: 20px;
+    font-size: 13px;
+  }
+
+  h1 {
+    font-size: 1rem;
+  }
+
   .keyboard {
     max-width: 100%;
     padding: 0 6px 10px;
     gap: 4px;
+    overflow-x: hidden;
   }
 
   .keyboard-row {
@@ -328,7 +371,7 @@ h1 {
     flex: 1 1 calc(10% - 4px);
     min-width: auto;
     font-size: 12px;
-    height: 45px;
+    height: 42px;
   }
 
   .key.wide {
@@ -336,15 +379,11 @@ h1 {
     font-size: 11px;
   }
 
-  /* Estilos específicos para la última fila */
   .keyboard-row:last-child {
     justify-content: space-between;
   }
 
-  .keyboard-row:last-child .key.wide[data-key="backspace"] {
-    flex: 1.2 1 calc(15% - 4px);
-  }
-
+  .keyboard-row:last-child .key.wide[data-key="backspace"],
   .keyboard-row:last-child .key.wide[data-key="enter"] {
     flex: 1.2 1 calc(15% - 4px);
   }
@@ -354,7 +393,7 @@ h1 {
   }
 
   .modal-content {
-    width: 95%; /* Más ancho en móviles */
+    width: 95%;
     padding: 15px;
   }
 

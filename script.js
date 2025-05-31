@@ -509,6 +509,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Configurar los botones del nuevo modal de instrucciones
     document.getElementById('closeInstructions').addEventListener('click', closeInstructionsModal);
     document.getElementById('startGameBtn').addEventListener('click', closeInstructionsModal);
+
+    // Configurar el botón de ayuda
+    document.getElementById('helpBtn').addEventListener('click', () => {
+        showInstructionsModal();
+        // Enviar evento a Google Analytics: Botón de ayuda presionado
+        if (typeof gtag === 'function') {
+            gtag('event', 'help_button_click', {
+                'event_category': 'ui_interaction',
+                'event_label': 'instructions_requested'
+            });
+        }
+    });
 });
 
 

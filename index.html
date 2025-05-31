@@ -21,7 +21,10 @@
     </script>
   </head>
   <body>
-    <h1>Adivina la palabra de 5 letras</h1>
+    <div class="header">
+      <h1>Adivina la palabra de 5 letras</h1>
+      <button id="helpBtn" class="help-btn" title="Ver instrucciones">?</button>
+    </div>
 
     <div class="game-container">
       <div class="board" id="board"></div>
@@ -112,9 +115,11 @@
                 <p>La letra <strong>R</strong> no está en la palabra en ninguna posición (gris).</p>
             </div>
             
-            <h3>Límite Diario:</h3>
-            <p>Solo puedes adivinar <strong>2 palabras por día</strong>. ¡El juego se reinicia cada medianoche!</p>
-            <button id="startGameBtn" class="play-again-btn">¡Empezar a Jugar!</button>
+            <div class="instructions-footer">
+              <h3>Límite Diario:</h3>
+              <p>Solo puedes adivinar <strong>2 palabras por día</strong>. ¡El juego se reinicia cada medianoche!</p>
+              <button id="startGameBtn" class="play-again-btn">¡Empezar a Jugar!</button>
+          </div>
         </div>
     </div>
 
